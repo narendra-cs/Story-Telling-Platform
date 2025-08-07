@@ -3,6 +3,7 @@ from typing import Optional, Dict, Any, Union
 from openai import AuthenticationError
 from .client import client
 
+
 class Role(Enum):
     USER = "user"
     ASSISTANT = "assistant"
@@ -15,11 +16,12 @@ def create_message(
 ) -> Dict[str, Any]:
     return {"role": role.value, "content": content}
 
+
 def get_chat_completion(
     messages: list,
     model: str = "gpt-3.5-turbo",
     temperature: float = 0.7,
-    max_tokens: int = 150,
+    max_tokens: int = None,
     top_p: float = 1.0,
     n: int = 1,
     stop: Optional[list] = None,
@@ -52,12 +54,14 @@ def get_chat_completion(
             max_tokens=max_tokens,
             top_p=top_p,
             n=n,
-            stop=stop
+            stop=stop,
         )
         return response.choices[0].message.content
     except AuthenticationError as e:
         raise AuthenticationError(
-            "Authentication Error: {}\nPlease check your OPENAI_API_KEY in the .env file.".format(str(e))
+            "Authentication Error: {}\nPlease check your OPENAI_API_KEY in the .env file.".format(
+                str(e)
+            )
         )
     except Exception as e:
         raise Exception(f"Error in chat completion: {str(e)}")
@@ -82,7 +86,9 @@ def moderate_content(text: str) -> Dict[str, Any]:
         return response.model_dump()
     except AuthenticationError as e:
         raise AuthenticationError(
-            "Authentication Error: {}\nPlease check your OPENAI_API_KEY in the .env file.".format(str(e))
+            "Authentication Error: {}\nPlease check your OPENAI_API_KEY in the .env file.".format(
+                str(e)
+            )
         )
     except Exception as e:
         raise Exception(f"Error in content moderation: {str(e)}")

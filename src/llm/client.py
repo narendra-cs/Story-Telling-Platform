@@ -9,7 +9,8 @@ class OpenAIClient:
     Singleton class to manage the OpenAI client instance.
     Ensures only one instance of the client is created and reused.
     """
-    _instance: Optional['OpenAIClient'] = None
+
+    _instance: Optional["OpenAIClient"] = None
     _client: Optional[OpenAI] = None
     _initialized: bool = False
 
@@ -26,10 +27,10 @@ class OpenAIClient:
     def get_client(self) -> OpenAI:
         """
         Get the OpenAI client instance. Creates one if it doesn't exist.
-        
+
         Returns:
             OpenAI: Initialized OpenAI client
-            
+
         Raises:
             FileNotFoundError: If .env file is not found
             ValueError: If OPENAI_API_KEY is not found in .env
@@ -44,14 +45,14 @@ class OpenAIClient:
             raise FileNotFoundError(
                 "No .env file found. Please create one with your OPENAI_API_KEY."
             )
-        
+
         load_dotenv(env_path)
-        
+
         # Get API key
-        api_key = os.getenv('OPENAI_API_KEY')
+        api_key = os.getenv("OPENAI_API_KEY")
         if not api_key:
             raise ValueError("OPENAI_API_KEY not found in .env file")
-        
+
         # Initialize client
         try:
             self._client = OpenAI(api_key=api_key)
@@ -68,10 +69,12 @@ class OpenAIClient:
 # Create a module-level singleton instance
 _openai_client = OpenAIClient()
 
+
 # Module-level function for backward compatibility
 def get_openai_client() -> OpenAI:
     """Get the singleton OpenAI client instance."""
     return _openai_client.get_client()
+
 
 # Module-level client instance for direct import
 client = get_openai_client()

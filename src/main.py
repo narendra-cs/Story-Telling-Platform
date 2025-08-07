@@ -1,21 +1,35 @@
-#!/usr/bin/env python3
-"""
-Main script demonstrating the usage of the modularized LLM utilities.
-"""
+from fastapi import FastAPI, HTTPException, status
+from src.models.request_models import StoryInput
+from src.llm.story_generator import StoryGenerator
 
-from llm.client import get_openai_client
-from llm.utils import get_chat_completion, moderate_content, create_message
+app = FastAPI()
 
-def main():
-    """Main function to demonstrate the usage of LLM utilities."""
+
+@app.post("/generate-story", status_code=status.HTTP_200_OK)
+async def generate_story(story_input: StoryInput):
     try:
-        pass
+        story_generator = StoryGenerator(
+            genre=story_input.genre,
+            characters_details=story_input.characters_details,
+            number_of_characters=story_input.number_of_characters,
+            number_of_paragraphs=story_input.number_of_paragraphs,
+            plot_points=story_input.plot_points,
+            instructions=story_input.instructions,
+        )
+        prompt, story_json = story_generator.generate_story()
+        return story_json
     except Exception as e:
-        print(f"An error occurred: {str(e)}")
-        return 1
-    
-    return 0
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e)
+        )
+
+
+@app.get("/health", status_code=status.HTTP_200_OK)
+async def health_check():
+    return {"message": "healthy"}
+
 
 if __name__ == "__main__":
-    import sys
-    sys.exit(main())
+    import uvicorn
+
+    uvicorn.run(app, host="0.0.0.0", port=8000)
