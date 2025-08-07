@@ -1,0 +1,179 @@
+/* StoryDisplay.css */
+
+/* Base styles */
+.story-content {
+  font-family: 'Georgia', serif;
+  line-height: 1.6;
+  font-size: 1.1rem;
+  color: #333;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Title styles */
+.story-title {
+  font-family: 'Playfair Display', serif;
+  font-weight: bold;
+  color: #1a237e;
+  text-align: center;
+  margin-bottom: 3rem;
+  padding-bottom: 1rem;
+}
+
+/* Paragraph styles */
+.story-paragraph {
+  text-indent: 2em;
+  margin: 1.5em 0;
+  line-height: 1.8;
+  text-align: justify;
+  padding: 0.5em 0;
+}
+
+.story-paragraph:first-of-type {
+  text-indent: 0;
+  margin-top: 0.5em;
+}
+
+.story-paragraph:last-of-type {
+  margin-bottom: 2em;
+}
+
+/* Drop cap for first paragraph */
+.story-paragraph:first-of-type:first-letter {
+  font-size: 2.5em;
+  float: left;
+  line-height: 0.8;
+  margin-right: 0.1em;
+  font-family: 'Playfair Display', serif;
+  font-weight: bold;
+  color: #1a237e;
+}
+
+/* Metadata section */
+.story-metadata {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e0e0e0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+/* Genre and tags */
+.metadata-label {
+  font-weight: bold;
+  margin-right: 0.5rem;
+  color: #555;
+}
+
+.tags-container {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.tag {
+  background-color: #e3f2fd;
+  color: #1565c0;
+  padding: 0.25rem 0.75rem;
+  border-radius: 16px;
+  font-size: 0.8rem;
+}
+
+/* Button container */
+.action-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1.5rem;
+  padding: 0.5rem 0;
+}
+
+/* Individual button styles */
+.generate-button {
+  margin-right: auto;
+}
+
+.print-button {
+  margin-left: auto;
+}
+
+/* Add some spacing between buttons if they wrap on small screens */
+@media (max-width: 600px) {
+  .action-buttons {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .generate-button,
+  .print-button {
+    width: 100%;
+    margin: 0;
+  }
+}
+
+/* Print styles */
+@media print {
+  @page {
+    size: A4;
+    margin: 1cm;
+  }
+  
+  body {
+    background: white;
+    color: black;
+    font-size: 12pt;
+  }
+  
+  .no-print {
+    display: none !important;
+  }
+  
+  .story-content {
+    padding: 0 !important;
+    font-size: 12pt;
+    line-height: 1.5;
+    max-width: 100%;
+    color: #000;
+  }
+  
+  .story-title {
+    color: #000;
+    font-size: 24pt;
+    margin-bottom: 20pt;
+  }
+  
+  .story-paragraph {
+    text-indent: 0.5in;
+    margin-bottom: 1em;
+    text-align: left;
+    font-size: 12pt;
+  }
+  
+  .story-paragraph:first-of-type:first-letter {
+    font-size: 2em;
+    color: #000;
+  }
+  
+  .story-metadata {
+    border-top: 1px solid #ddd;
+    margin-top: 20pt;
+    padding-top: 10pt;
+  }
+  
+  .tag {
+    background-color: transparent;
+    color: #000;
+    border: 1px solid #999;
+    font-size: 10pt;
+    padding: 2px 8px;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    page-break-after: avoid;
+  }
+  
+  p, li {
+    page-break-inside: avoid;
+  }
+}
