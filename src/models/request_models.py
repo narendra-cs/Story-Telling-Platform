@@ -48,6 +48,7 @@ class GenreEnum(str, enum.Enum):
     History = "History"
     SelfHelp = "Self Help"
     NonFiction = "Non Fiction"
+    Adventure = "Adventure"
 
 
 class StoryInput(BaseModel):
