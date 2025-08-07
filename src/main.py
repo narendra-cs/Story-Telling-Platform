@@ -1,11 +1,27 @@
 from fastapi import FastAPI, HTTPException, status
+from fastapi.middleware.cors import CORSMiddleware
 from src.models.request_models import StoryInput
 from src.llm.story_generator import StoryGenerator
 
-app = FastAPI()
+app = FastAPI(
+    title="Story Telling Platform API",
+    description="API for generating stories using AI",
+    version="0.0.1",
+    openapi_url="/api/openapi.json",
+    docs_url="/api/docs",
+    redoc_url="/api/redoc",
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:8080"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
-@app.post("/generate-story", status_code=status.HTTP_200_OK)
+@app.post("/api/generate-story", status_code=status.HTTP_200_OK)
 async def generate_story(story_input: StoryInput):
     try:
         story_generator = StoryGenerator(
@@ -16,7 +32,7 @@ async def generate_story(story_input: StoryInput):
             plot_points=story_input.plot_points,
             instructions=story_input.instructions,
         )
-        prompt, story_json = story_generator.generate_story()
+        story_json = story_generator.generate_story()
         return story_json
     except Exception as e:
         raise HTTPException(

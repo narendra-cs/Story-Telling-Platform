@@ -13,9 +13,9 @@ class Character(BaseModel):
     """Character class to store character details"""
 
     name: str = Field(description="Name of the character")
-    age: int = Field(default=0, description="Age of the character")
+    age: int = Field(description="Age of the character")
     gender: GenderEnum = Field(
-        default=GenderEnum.MALE, description="Gender of the character"
+        default=GenderEnum.OTHER, description="Gender of the character"
     )
     personality: str = Field(default="", description="Personality of the character")
     motivation: str = Field(default="", description="Motivation of the character")

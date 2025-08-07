@@ -21,7 +21,7 @@ class StoryGenerator:
         self.plot_points = plot_points
         self.instructions = instructions
 
-    def generate_story(self) -> tuple[str, dict]:
+    def generate_story(self) -> dict:
         messages = [create_message("You are a master storyteller.", Role.SYSTEM)]
 
         prompt_generator = PromptGenerator(
@@ -38,4 +38,4 @@ class StoryGenerator:
 
         story = get_chat_completion(messages, model="gpt-4o")
         story_json = json.loads(story)
-        return prompt, story_json
+        return story_json

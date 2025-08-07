@@ -71,7 +71,7 @@ class PromptGenerator:
                 "Either number_of_characters or characters_details must not be None"
             )
 
-        if self.characters_details is not None:
+        if self.characters_details:
             characters = f"Characters: The story must feature the following main characters:\n\n---\n"
             for character in self.characters_details:
                 characters += f"Name: {character.name}\nAge: {character.age}\nGender: {character.gender}\nPersonality: {character.personality}\nMotivation: {character.motivation}\nRole: {character.role}\n---\n"
@@ -85,7 +85,7 @@ class PromptGenerator:
 
     def __plot_points_prompt(self) -> str:
 
-        if self.plot_points is not None:
+        if self.plot_points:
             plot_points_prompt = (
                 f"Plot Points: The story must feature the following plot points:\n"
             )
