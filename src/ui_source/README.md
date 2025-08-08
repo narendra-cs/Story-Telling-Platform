@@ -48,9 +48,10 @@ This is the frontend for the Story Telling Platform, built with React, Material-
 ```
 src/
 ├── components/     # Reusable UI components
+├── contexts/         # Contexts for global state
+├── hooks/         # Custom hooks
 ├── pages/         # Page components
-│   ├── HomePage.jsx
-│   └── StoryGenerator.jsx
+├── utils/         # Utility functions
 ├── App.js         # Main application component
 ├── main.jsx       # Application entry point
 ├── index.html     # HTML template
