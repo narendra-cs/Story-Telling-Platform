@@ -10,6 +10,26 @@ An interactive web application that generates personalized stories using AI mode
 - Responsive design for desktop and mobile devices
 - Secure API key management
 
+## Screenshots
+
+### 1. Home Page
+![Home Page](imgs/home.png)
+*The main landing page of the Story Telling Platform*
+
+### 2. Story Generation Form
+![Generate Story](imgs/generate_story.png)
+*Interface for entering story parameters and generating new stories*
+
+### 3. Generated Stories
+
+#### Story Example 1
+![Generated Story 1](imgs/story1.png)
+*An example of a generated story with the specified parameters*
+
+#### Story Example 2
+![Generated Story 2](imgs/story2.png)
+*Another example showing different story generation results*
+
 ## Prerequisites
 
 - Python 3.8+
