@@ -17,7 +17,9 @@ An interactive web application that generates personalized stories using AI mode
 *The main landing page of the Story Telling Platform*
 
 ### 2. Story Generation Form
-![Generate Story](imgs/generate_story.png)
+![Generate Story](imgs/generate_story1.png)
+
+![Generate Story](imgs/generate_story2.png)
 *Interface for entering story parameters and generating new stories*
 
 ### 3. Generated Stories
