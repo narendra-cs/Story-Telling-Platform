@@ -1,5 +1,5 @@
 from enum import Enum
-from typing import Optional, Dict, Any, Union
+from typing import Dict, Any, List
 from openai import AuthenticationError
 from .client import client
 
@@ -18,13 +18,13 @@ def create_message(
 
 
 def get_chat_completion(
-    messages: list,
+    messages: List[Dict[str, Any]],
     model: str = "gpt-3.5-turbo",
     temperature: float = 0.7,
-    max_tokens: int = None,
+    max_tokens: int | None = None,
     top_p: float = 1.0,
     n: int = 1,
-    stop: Optional[list] = None,
+    stop: List[str] | None = None,
 ) -> str:
     """
     Get a response from the OpenAI chat completion API.
