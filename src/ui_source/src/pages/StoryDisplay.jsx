@@ -30,11 +30,11 @@ const StoryDisplay = () => {
     return (
       <div className="story-content">
         <Typography className="story-title" variant="h5">
-          {story.Title}
+          {story.title}
         </Typography>
 
         <div className="story-body">
-          {story.Paragraphs?.map((p, i) => (
+          {story.paragraphs?.map((p, i) => (
             <Typography key={i} className="story-paragraph">
               {p}
             </Typography>
@@ -44,12 +44,12 @@ const StoryDisplay = () => {
         <div className="story-metadata">
           <div className="metadata-item">
             <span className="metadata-label">Genre:</span>
-            <span>{story.Genre}</span>
+            <span>{story.genre}</span>
           </div>
 
           <div className="metadata-item">
             <span className="metadata-label">Tags:</span>
-            {story.Tags?.map((tag, i) => (
+            {story.tags?.map((tag, i) => (
               <span key={i} className="tag">
                 {tag}
               </span>
@@ -76,7 +76,7 @@ const StoryDisplay = () => {
   return (
     <Box className="story-container">
       <Typography gutterBottom className="story-title" variant="h4">
-        {currentStory.title || 'Your Generated Story'}
+        {'Your Generated Story'}
       </Typography>
 
       <Paper className="story-paper" elevation={3}>
