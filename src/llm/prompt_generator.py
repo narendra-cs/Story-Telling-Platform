@@ -1,5 +1,5 @@
 import textwrap
-from src.models.request_models import Character
+from src.pydentic_models.models import Character
 
 # AI Story generation prompt template
 
@@ -47,10 +47,10 @@ class PromptGenerator:
         Output Format: Follow below json structure. Please output only raw JSON without markdown formatting or code fences.
 
         {{
-        Title: "<title of story>"
-        Paragraphs: [<paragraph1>, <paragraph2>, <paragraph3>, ...],
-        Genre: "<genre>",
-        Tags: [<tag1>, <tag2>, <tag3>]
+        title: "<title of story>",
+        paragraphs: [<paragraph1>, <paragraph2>, <paragraph3>, ...],
+        genre: "<genre>",
+        tags: [<tag1>, <tag2>, <tag3>]
         }}
         """
         )
