@@ -11,7 +11,7 @@ class OpenAIClient:
     """
 
     _instance: Optional["OpenAIClient"] = None
-    _client: Optional[OpenAI] = None
+    _client: OpenAI | None = None
     _initialized: bool = False
 
     def __new__(cls):

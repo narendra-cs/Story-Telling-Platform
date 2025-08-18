@@ -127,7 +127,7 @@ const StoryGenerator = () => {
         }));
       }
 
-      const response = await fetch('/api/generate-story', {
+      const response = await fetch('/api/v1/generate-story', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

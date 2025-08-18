@@ -1,4 +1,5 @@
 import enum
+from typing import List
 from pydantic import BaseModel, Field
 
 
@@ -55,13 +56,15 @@ class StoryInput(BaseModel):
     """StoryInput class to store story input details"""
 
     genre: GenreEnum = Field(description="Genre of the story")
-    characters_details: list[Character] = Field(
+    characters_details: List[Character] | None = Field(
         default=None, description="Details of the characters"
     )
     number_of_characters: int = Field(default=3, description="Number of characters")
     number_of_paragraphs: int = Field(default=3, description="Number of paragraphs")
-    plot_points: list[str] = Field(default=None, description="Plot points of the story")
-    instructions: list[str] = Field(
+    plot_points: List[str] | None = Field(
+        default=None, description="Plot points of the story"
+    )
+    instructions: List[str] | None = Field(
         default=None, description="Instructions for the story"
     )
     model_config = {
@@ -95,6 +98,31 @@ class StoryInput(BaseModel):
                     "Ensure the dialogue (if any) is natural and reveals character.",
                     "Ensure the story is free of any offensive or inappropriate content.",
                 ],
+            }
+        }
+    }
+
+
+class StoryOutput(BaseModel):
+    """StoryOutput class to store story output details"""
+
+    title: str = Field(description="Title of the story")
+    paragraphs: List[str] = Field(description="Paragraphs of the story")
+    genre: str = Field(description="Genre of the story")
+    tags: List[str] = Field(description="Tags of the story")
+
+    model_config = {
+        "json_schema_extra": {
+            "example": {
+                "title": "The Legend of the Lost Treasure",
+                "paragraphs": [
+                    "Once upon a time in a faraway land...",
+                    "The hero embarked on a perilous journey...",
+                    "The climax was intense and heart-pounding...",
+                    "The hero emerged victorious...",
+                ],
+                "genre": "Fantasy",
+                "tags": ["fantasy", "adventure", "heroic"],
             }
         }
     }
