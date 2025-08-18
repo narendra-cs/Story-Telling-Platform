@@ -1,8 +1,9 @@
-import json
 from typing import Dict, Any, List
-from src.llm.prompt_generator import PromptGenerator
-from src.llm.utils import get_chat_completion, create_message, Role
+from langchain_core.output_parsers import JsonOutputParser
+from langchain_core.prompts import ChatPromptTemplate
 from src.pydentic_models.models import Character
+from src.llm.prompt_generator import PromptGenerator
+from src.llm.utils import Role, get_llm
 
 
 class StoryGenerator:
@@ -24,8 +25,16 @@ class StoryGenerator:
 
     def generate_story(self) -> Dict[str, Any]:
 
+        output = {"title": "", "paragraphs": [], "genre": self.genre, "tags": []}
+
         try:
-            messages = [create_message("You are a master storyteller.", Role.SYSTEM)]
+            messages = [
+                (Role.SYSTEM.value, "You are a master storyteller."),
+                (Role.USER.value, "{input}"),
+            ]
+
+            prompt = ChatPromptTemplate.from_messages(messages)
+            chain = prompt | get_llm() | JsonOutputParser()
 
             prompt_generator = PromptGenerator(
                 genre=self.genre,
@@ -35,13 +44,10 @@ class StoryGenerator:
                 plot_points=self.plot_points,
                 instructions=self.instructions,
             )
-            prompt = prompt_generator.generate_prompt()
+            user_message = prompt_generator.generate_prompt()
 
-            messages.append(create_message(prompt, Role.USER))
-            story = get_chat_completion(messages, model="gpt-4o")
-            story_json = json.loads(story)
-            return story_json
-        except json.JSONDecodeError as e:
-            raise Exception(f"Invalid JSON response from the llm model: {str(e)}")
+            story = chain.invoke({"input": user_message})
+
+            return {**output, **story}
         except Exception as e:
             raise Exception(f"Error in story generation: {str(e)}")

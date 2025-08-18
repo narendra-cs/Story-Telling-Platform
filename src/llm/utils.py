@@ -1,94 +1,44 @@
+import os
 from enum import Enum
-from typing import Dict, Any, List
-from openai import AuthenticationError
-from .client import client
+from dotenv import load_dotenv, find_dotenv
+from langchain_openai import ChatOpenAI
+from langchain_ollama import ChatOllama
+
+
+def load_env():
+    env_path = find_dotenv()
+    if not env_path:
+        raise FileNotFoundError(
+            "No .env file found. Please create one with your OPENAI_API_KEY."
+        )
+    load_dotenv(env_path)
+
+    api_key = os.getenv("OPENAI_API_KEY")
+    if api_key:
+        os.environ["OPENAI_API_KEY"] = api_key
+
+    langchain_api_key = os.getenv("LANGCHAIN_API_KEY")
+    if langchain_api_key:
+        os.environ["LANGCHAIN_API_KEY"] = langchain_api_key
+
+    langchain_tracing_v2 = os.getenv("LANGCHAIN_TRACING_V2")
+    if langchain_tracing_v2:
+        os.environ["LANGCHAIN_TRACING_V2"] = langchain_tracing_v2
+
+    langchain_project = os.getenv("LANGCHAIN_PROJECT")
+    if langchain_project:
+        os.environ["LANGCHAIN_PROJECT"] = langchain_project
+
+
+def get_llm(**kwargs):
+    load_env()
+    if "OPENAI_API_KEY" in os.environ:
+        return ChatOpenAI(model="gpt-4o", temperature=1, top_p=1.0, n=1, **kwargs)
+    else:
+        return ChatOllama(model="llama3.2", temperature=1, **kwargs)
 
 
 class Role(Enum):
     USER = "user"
     ASSISTANT = "assistant"
     SYSTEM = "system"
-
-
-def create_message(
-    content: str,
-    role: Role = Role.USER,
-) -> Dict[str, Any]:
-    return {"role": role.value, "content": content}
-
-
-def get_chat_completion(
-    messages: List[Dict[str, Any]],
-    model: str = "gpt-3.5-turbo",
-    temperature: float = 0.7,
-    max_tokens: int | None = None,
-    top_p: float = 1.0,
-    n: int = 1,
-    stop: List[str] | None = None,
-) -> str:
-    """
-    Get a response from the OpenAI chat completion API.
-
-    Args:
-        messages: List of messages for the conversation
-        model: The model to use for completion
-        temperature: Controls randomness (0.0 to 2.0)
-        max_tokens: Maximum number of tokens to generate
-        top_p: Controls diversity via nucleus sampling
-        n: Number of completions to generate
-        stop: List of sequences where the API will stop generating
-
-    Returns:
-        str: The generated text response
-
-    Raises:
-        AuthenticationError: If there's an authentication issue
-        Exception: For other API errors
-    """
-    stop = stop or []
-    try:
-        response = client.chat.completions.create(
-            model=model,
-            messages=messages,
-            temperature=temperature,
-            max_tokens=max_tokens,
-            top_p=top_p,
-            n=n,
-            stop=stop,
-        )
-        return response.choices[0].message.content
-    except AuthenticationError as e:
-        raise AuthenticationError(
-            "Authentication Error: {}\nPlease check your OPENAI_API_KEY in the .env file.".format(
-                str(e)
-            )
-        )
-    except Exception as e:
-        raise Exception(f"Error in chat completion: {str(e)}")
-
-
-def moderate_content(text: str) -> Dict[str, Any]:
-    """
-    Check if the given text violates OpenAI's content policy.
-
-    Args:
-        text: The text to moderate
-
-    Returns:
-        Dict containing moderation results
-
-    Raises:
-        AuthenticationError: If there's an authentication issue
-        Exception: For other API errors
-    """
-    try:
-        response = client.moderations.create(input=text)
-        return response.model_dump()
-    except AuthenticationError as e:
-        raise AuthenticationError(
-            "Authentication Error: {}\nPlease check your OPENAI_API_KEY in the .env file.".format(
-                str(e)
-            )
-        )
-    except Exception as e:
-        raise Exception(f"Error in content moderation: {str(e)}")
