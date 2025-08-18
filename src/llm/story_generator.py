@@ -1,9 +1,10 @@
 from typing import Dict, Any, List
 from langchain_core.output_parsers import JsonOutputParser
-from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.messages import HumanMessage, SystemMessage
+from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from src.pydentic_models.models import Character
 from src.llm.prompt_generator import PromptGenerator
-from src.llm.utils import Role, get_llm
+from src.llm.utils import get_llm
 
 
 class StoryGenerator:
@@ -29,8 +30,8 @@ class StoryGenerator:
 
         try:
             messages = [
-                (Role.SYSTEM.value, "You are a master storyteller."),
-                (Role.USER.value, "{input}"),
+                SystemMessage(content="You are a master storyteller."),
+                MessagesPlaceholder(variable_name="messages"),
             ]
 
             prompt = ChatPromptTemplate.from_messages(messages)
@@ -46,7 +47,7 @@ class StoryGenerator:
             )
             user_message = prompt_generator.generate_prompt()
 
-            story = chain.invoke({"input": user_message})
+            story = chain.invoke({"messages": [HumanMessage(content=user_message)]})
 
             return {**output, **story}
         except Exception as e:
