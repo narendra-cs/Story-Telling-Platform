@@ -109,7 +109,7 @@ class StoryOutput(BaseModel):
     title: str = Field(description="Title of the story")
     paragraphs: List[str] = Field(description="Paragraphs of the story")
     genre: str = Field(description="Genre of the story")
-    tags: List[str] = Field(description="Tags of the story")
+    tags: List[str] = Field(description="Tags of the story", default=[])
 
     model_config = {
         "json_schema_extra": {

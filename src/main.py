@@ -27,7 +27,11 @@ app.add_middleware(
 )
 
 
-# Health check endpoint
+@app.get("/", status_code=status.HTTP_200_OK)
+async def health_check() -> Dict[str, str]:
+    return {"message": "Welcome to Story Telling Platform API"}
+
+
 @app.get("/health", status_code=status.HTTP_200_OK)
 async def health_check() -> Dict[str, str]:
     return {"message": "healthy"}

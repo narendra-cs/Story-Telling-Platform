@@ -1,11 +1,14 @@
 # AI-Powered Storytelling Platform
 
-An interactive web application that generates personalized stories using AI models from OpenAI. Users can provide inputs and receive AI-generated stories based on their preferences.
+An interactive web application that generates personalized stories using AI models from OpenAI, LangChain, and local LLMs via Ollama. Users can provide inputs and receive AI-generated stories based on their preferences.
 
 ## Features
 
 - Interactive web interface for story generation
-- Integration with OpenAI's language models
+- Multiple AI backends:
+  - OpenAI's language models (GPT-3.5, GPT-4)
+  - LangChain for advanced prompting and chaining
+  - Local LLMs via Ollama for offline/private use
 - Customizable story parameters (genre, characters, plot points)
 - Responsive design for desktop and mobile devices
 - Secure API key management
@@ -36,7 +39,9 @@ An interactive web application that generates personalized stories using AI mode
 
 - Python 3.8+
 - pip (Python package manager)
-- OpenAI API key (sign up at [OpenAI](https://openai.com/))
+- AI Model Access (choose one or more):
+  - OpenAI API key (sign up at [OpenAI](https://openai.com/))
+  - [Ollama](https://ollama.ai/) installed for local LLM support
 - Node.js and npm (for frontend development)
 
 ## Quick Start
@@ -66,14 +71,33 @@ An interactive web application that generates personalized stories using AI mode
    ```
 
 4. **Set up environment variables**
-   Create a `.env` file in the project root and add your OpenAI API key:
+   Create a `.env` file in the project root and add your preferred API keys:
    ```
+   # Required for OpenAI
    OPENAI_API_KEY=your_openai_api_key_here
+   
+   # Optional: For LangChain specific settings
+   LANGCHAIN_API_KEY=your_langchain_api_key_here
+   LANGCHAIN_PROJECT=your_langchain_project_here
    ```
 
 5. **Run the backend server**
    ```bash
    python -m src.main
+   ```
+
+### Using Ollama (Optional)
+
+If you want to use local LLMs via Ollama:
+
+1. Install Ollama from [ollama.ai](https://ollama.ai/)
+2. Start the Ollama server:
+   ```bash
+   ollama serve
+   ```
+3. Pull a model (e.g., Llama 3.2):
+   ```bash
+   ollama pull llama3.2
    ```
 
 ### Frontend Setup
@@ -105,7 +129,6 @@ Story-Telling-Platform/
 │   ├── main.py            # FastAPI application
 │   ├── llm/               # LLM integration
 │   │   ├── __init__.py
-│   │   ├── client.py      # OpenAI client
 │   │   └── utils.py       # Utility functions
 │   └── api/               # API endpoints
 │       └── endpoints.py
@@ -122,6 +145,16 @@ Story-Telling-Platform/
 ├── README.md              # This file
 └── .gitignore
 ```
+
+## Configuration
+
+You can configure the application by setting the following environment variables:
+
+| Variable | Description | Required | Default |
+|----------|-------------|----------|---------|
+| `OPENAI_API_KEY` | Your OpenAI API key | Only for OpenAI | - |
+| `LANGCHAIN_API_KEY` | LangChain API key | No | - |
+| `LANGCHAIN_PROJECT` | LangChain project name | No | - |
 
 ## Testing
 
@@ -154,3 +187,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [FastAPI](https://fastapi.tiangolo.com/) for the backend framework
 - [React](https://reactjs.org/) for the frontend library
 - [OpenAI](https://openai.com/) for the LLM integration
+- [LangChain](https://www.langchain.com/) for advanced LLM orchestration
+- [Ollama](https://ollama.ai/) for local LLM support
